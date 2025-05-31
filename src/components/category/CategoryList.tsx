@@ -3,6 +3,7 @@ import {useCategory} from "@/context/CategoryContext.tsx";
 import CategoryCard from "@/components/category/CategoryCard.tsx";
 import {deleteCategory, fetchCategories} from "@/service/CategoryService.ts";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const CategoryList = () => {
     const {categories, setCategories} = useCategory()
@@ -41,6 +42,7 @@ const CategoryList = () => {
                             await deleteCategory(category.categoryId);
                             const updatedCategories = await fetchCategories();
                             setCategories(updatedCategories);
+                            toast.success("Category deleted successfully");
                         }}
                     />
                 ))}
@@ -51,4 +53,3 @@ const CategoryList = () => {
 }
 
 export default CategoryList
-

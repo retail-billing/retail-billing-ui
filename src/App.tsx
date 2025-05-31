@@ -6,11 +6,13 @@ import ManageCategory from "@/pages/ManageCategory/ManageCategory.tsx";
 import Explore from "@/pages/Explore/Explore.tsx";
 import ManageItem from "@/pages/ManageItem/ManageItem.tsx";
 import ManageUser from "@/pages/ManageUser/ManageUser.tsx";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
     return (
         <div>
             <NavBar/>
+            <Toaster />
             <Routes>
                 <Route path="/" element={<Dashboard/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>

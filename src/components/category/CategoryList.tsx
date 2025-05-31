@@ -1,10 +1,10 @@
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
 import {useCategory} from "@/context/CategoryContext.tsx";
 import CategoryCard from "@/components/category/CategoryCard.tsx";
-import {deleteCategory} from "@/service/CategoryService.ts";
+import {deleteCategory, fetchCategories} from "@/service/CategoryService.ts";
 
 const CategoryList = () => {
-    const {categories} = useCategory()
+    const {categories, setCategories} = useCategory()
 
     return <div className="flex flex-col w-full space-y-6">
         <div className="font-bold underline">
@@ -20,9 +20,11 @@ const CategoryList = () => {
                         categoryName={category.name}
                         imageUrl={category.imageUrl}
                         description={category.description}
-                        backgroundColor={""}
-                        onDelete={() => {
-                            deleteCategory(category.categoryId);
+                        backgroundColor={category.bgColor}
+                        onDelete={async () => {
+                            await deleteCategory(category.categoryId);
+                            const updatedCategories = await fetchCategories();
+                            setCategories(updatedCategories);
                         }}
                     />
                 ))}

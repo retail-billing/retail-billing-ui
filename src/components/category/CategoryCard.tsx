@@ -23,9 +23,9 @@ interface CategoryCardProps {
     onDelete: (categoryId: string) => void; // Callback function for deletion
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ id, categoryName, imageUrl, description, onDelete }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ id, categoryName, imageUrl, description, backgroundColor, onDelete }) => {
     return (
-        <Card className={`w-[300px]`}>
+        <Card className={`w-[300px]`} style={{backgroundColor: backgroundColor}}>
             <CardHeader>
                 <CardTitle>{categoryName}</CardTitle>
                 <CardDescription>

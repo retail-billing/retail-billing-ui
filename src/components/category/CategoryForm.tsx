@@ -1,5 +1,6 @@
 "use client"
 
+import { addCategory, fetchCategories } from "@/service/CategoryService.ts"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/form.tsx"
 import { Input } from "@/components/ui/input.tsx"
 import {ColorPicker} from "@/components/ui/color-picker.tsx";
+import {useCategory} from "@/context/CategoryContext.tsx";
 
 const formSchema = z.object({
     image: z.any().optional(), // Or z.instanceof(File).optional() if you directly pass File objects
@@ -29,22 +31,29 @@ const formSchema = z.object({
 })
 
 export function CategoryForm() {
-    // ...
-    // 1. Define your form.
+    const {setCategories} = useCategory()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            description: ""
+            description: "",
+            backgroundColor: "",
+            image: undefined
         },
     })
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
-    }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const file = values.image?.[0];
+        const categoryPayload = {
+            name: values.name,
+            description: values.description,
+            bgColor: values.backgroundColor,
+        };
+        await addCategory(categoryPayload, file);
+        const updatedCategories = await fetchCategories();
+        setCategories(updatedCategories);
+    };
 
     return (
         <Form {...form}>
@@ -57,7 +66,11 @@ export function CategoryForm() {
                             <FormLabel>Image</FormLabel>
                             <FormControl>
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                                    <Input id="picture" type="file" {...field} />
+                                    <Input
+                                        id="picture"
+                                        type="file"
+                                        onChange={e => field.onChange(e.target.files)}
+                                    />
                                 </div>
                             </FormControl>
                             <FormMessage />

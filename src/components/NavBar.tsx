@@ -10,7 +10,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
 
 
 export default function NavBar() {
-    return <div className={`flex ml-4 mt-4 space-x-4`}>
+    return <div className={`flex ml-4 mt-4 mb-4 space-x-4`}>
         <Avatar>
             <AvatarImage src="" />
             <AvatarFallback>A</AvatarFallback>

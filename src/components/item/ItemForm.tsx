@@ -1,9 +1,9 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button.tsx"
+import {zodResolver} from "@hookform/resolvers/zod"
+import {useForm} from "react-hook-form"
+import {z} from "zod"
+import {Button} from "@/components/ui/button.tsx"
 import {
     Form,
     FormControl,
@@ -12,8 +12,9 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form.tsx"
-import { Input } from "@/components/ui/input.tsx"
+import {Input} from "@/components/ui/input.tsx"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
+import {useCategory} from "@/context/CategoryContext.tsx";
 
 const formSchema = z.object({
     image: z.any().optional(), // Or z.instanceof(File).optional() if you directly pass File objects
@@ -30,6 +31,8 @@ const formSchema = z.object({
 export function ItemForm() {
     // ...
     // 1. Define your form.
+    const {categories} = useCategory();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -51,7 +54,7 @@ export function ItemForm() {
                 <FormField
                     control={form.control}
                     name="image"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Image</FormLabel>
                             <FormControl>
@@ -59,68 +62,68 @@ export function ItemForm() {
                                     <Input id="picture" type="file" {...field} />
                                 </div>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
                 <FormField
                     control={form.control}
                     name="name"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
                                 <Input placeholder="refrigerator" {...field} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
                 <FormField
                     control={form.control}
                     name="description"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
                                 <Input placeholder="home appliance" {...field} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
                 <FormField
                     control={form.control}
                     name="category"
-                    render={({ field }) => (
+                    render={() => (
                         <FormItem>
                             <FormLabel>Category</FormLabel>
                             <FormControl>
                                 <Select>
                                     <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Select category" />
+                                        <SelectValue placeholder="Select category"/>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="light">A</SelectItem>
-                                        <SelectItem value="dark">B</SelectItem>
-                                        <SelectItem value="system">C</SelectItem>
+                                        {categories?.map(category => {
+                                            return <SelectItem value="system">{category.name}</SelectItem>
+                                        })}
                                     </SelectContent>
                                 </Select>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
                 <FormField
                     control={form.control}
                     name="price"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Price</FormLabel>
                             <FormControl>
                                 <Input placeholder={"1000"} {...field} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />

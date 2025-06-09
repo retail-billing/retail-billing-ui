@@ -53,6 +53,7 @@ export function CategoryForm() {
         await addCategory(categoryPayload, file);
         const updatedCategories = await fetchCategories();
         setCategories(updatedCategories);
+        form.reset();
     };
 
     return (

@@ -13,6 +13,9 @@ import {
     FormMessage,
 } from "@/components/ui/form.tsx"
 import {Input} from "@/components/ui/input.tsx"
+import {useUser} from "@/context/UserContext.tsx";
+import {addUser, fetchUsers} from "@/service/UserService";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -24,12 +27,13 @@ const formSchema = z.object({
     password: z.string().min(2, {
         message: "Name must be at least 2 characters.",
     }),
-    phone: z.number().min(10, {
+    phone: z.string().min(10, {
         message: "Phone number must be a 10 digits.",
     }),
 })
 
 export function UserForm() {
+    const {setUsers} = useUser() // Assuming you have a context or service to manage users
     // ...
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
@@ -38,15 +42,26 @@ export function UserForm() {
             name: "",
             email: "",
             password: "",
-            phone: undefined,
+            phone: "",
         },
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        const userPayload = {
+            name: values.name,
+            email: values.email,
+            phoneNumber: values.phone,
+            password: values.password,
+            role: "user"
+        };
+
+        await addUser(userPayload);
+        const updatedUsers = await fetchUsers();
+        setUsers(updatedUsers);
+        console.log(updatedUsers);
+        toast.success("User added successfully");
+        form.reset();
     }
 
     return (

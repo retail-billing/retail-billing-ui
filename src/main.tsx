@@ -3,11 +3,14 @@ import './index.css'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {CategoryProvider} from "@/context/CategoryContext.tsx";
+import {UserProvider} from "@/context/UserContext.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
-        <CategoryProvider>
-            <App/>
-        </CategoryProvider>
+        <UserProvider>
+            <CategoryProvider>
+                <App/>
+            </CategoryProvider>
+        </UserProvider>
     </BrowserRouter>
 )

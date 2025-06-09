@@ -7,10 +7,10 @@ const ManageUser = () => {
         <div
             className={`Category Form flex-1 w-full lg:w-1/2 p-6 bg-white rounded-lg shadow-lg m-2 lg:pr-8`}>
             <div className={`mb-12 font-bold underline`}>Create User</div>
-            <UserForm/>
+            <UserForm />
         </div>
         <div className={`category-list flex-1 w-full lg:w-1/2 p-6 bg-white rounded-lg shadow-lg m-2 lg:pl-8`}>
-            <UserList/>
+            <UserList />
         </div>
     </div>)
 }

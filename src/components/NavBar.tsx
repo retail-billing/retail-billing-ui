@@ -14,8 +14,12 @@ export default function NavBar() {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
         navigate("/login");
     };
+
+    const role = localStorage.getItem("role");
+
     return <div className={`flex ml-4 mt-4 mb-4 space-x-4 items-center`}>
         <Avatar>
             <AvatarImage src="" />
@@ -37,27 +41,27 @@ export default function NavBar() {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                {role === 'ADMIN' && <NavigationMenuItem>
                     <Link to="/items">
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Manage Items
                         </NavigationMenuLink>
                     </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
+                </NavigationMenuItem>}
+                {role === 'ADMIN' && <NavigationMenuItem>
                     <Link to="/categories">
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Manage Categories
                         </NavigationMenuLink>
                     </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
+                </NavigationMenuItem>}
+                {role === 'ADMIN' && <NavigationMenuItem>
                     <Link to="/users">
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Manage Users
                         </NavigationMenuLink>
                     </Link>
-                </NavigationMenuItem>
+                </NavigationMenuItem>}
             </NavigationMenuList>
         </NavigationMenu>
         <div className="flex-1" />

@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input.tsx"
 import {ColorPicker} from "@/components/ui/color-picker.tsx";
 import {useCategory} from "@/context/CategoryContext.tsx";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     image: z.any().optional(), // Or z.instanceof(File).optional() if you directly pass File objects
@@ -53,6 +54,7 @@ export function CategoryForm() {
         await addCategory(categoryPayload, file);
         const updatedCategories = await fetchCategories();
         setCategories(updatedCategories);
+        toast.success("Category added successfully!");
         form.reset();
     };
 

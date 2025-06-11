@@ -1,4 +1,5 @@
 import axios from "axios";
+import {toast} from "sonner";
 
 const token = localStorage.getItem("token");
 
@@ -14,19 +15,29 @@ export interface Item {
 }
 
 export const addItem = async (item: Omit<Item, "categoryName" | "itemId" | "imageUrl">, file?: File) => {
-    const formData = new FormData();
-    formData.append('itemRequestJson', JSON.stringify(item));
-    if (file) {
-        formData.append('file', file);
-    }
-    console.log(formData);
-    const response = await axios.post('http://localhost:8080/v1/admin/items', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}`,
+    try {
+        const formData = new FormData();
+        formData.append('itemRequestJson', JSON.stringify(item));
+        if (file) {
+            formData.append('file', file);
         }
-    });
-    return response.data;
+        console.log(formData);
+        const response = await axios.post('http://localhost:8080/v1/admin/items', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        return response.data;
+    } catch (error: unknown) {
+        let message = 'Failed to add item';
+        if (axios.isAxiosError(error) && error.response && error.response.data) {
+            if (typeof error.response.data === 'object' && error.response.data.message) {
+                message = error.response.data.message;
+            }
+        }
+        toast.error(message);
+    }
 }
 
 export const deleteItem = async (itemId: string) => {

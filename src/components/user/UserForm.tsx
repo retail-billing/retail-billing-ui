@@ -60,7 +60,7 @@ export function UserForm() {
         const updatedUsers = await fetchUsers();
         setUsers(updatedUsers);
         console.log(updatedUsers);
-        toast.success("User added successfully");
+        toast.success("User added successfully!");
         form.reset();
     }
 

@@ -10,6 +10,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {addItem, fetchItems} from "@/service/ItemService.ts";
 import {useItem} from "@/context/ItemContext.tsx";
 import {useCategory} from "@/context/CategoryContext.tsx";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     image: z.any().optional(), // Or z.instanceof(File).optional() if you directly pass File objects
@@ -49,12 +50,11 @@ export function ItemForm() {
             price: values.price,
             quantity: values.quantity,
         };
-        console.log(itemPayload);
         await addItem(itemPayload, file);
         const updatedItems = await fetchItems();
         setItems(updatedItems);
+        toast.success("Item added successfully!");
         form.reset();
-        console.log(values)
     }
     
     return (

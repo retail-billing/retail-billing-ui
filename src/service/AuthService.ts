@@ -26,6 +26,7 @@ export const login = async (data: LoginProps): Promise<LoginResponse> => {
 
         if (response.data && response.data.token) {
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('role', response.data.role);
             return response.data;
         } else {
             throw new Error('Login failed: Invalid response');

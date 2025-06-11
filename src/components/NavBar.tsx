@@ -7,10 +7,16 @@ import {
 } from "@/components/ui/navigation-menu"
 import {Link} from "react-router-dom"
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
-
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 export default function NavBar() {
-    return <div className={`flex ml-4 mt-4 mb-4 space-x-4`}>
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+    return <div className={`flex ml-4 mt-4 mb-4 space-x-4 items-center`}>
         <Avatar>
             <AvatarImage src="" />
             <AvatarFallback>A</AvatarFallback>
@@ -54,5 +60,10 @@ export default function NavBar() {
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
+        <div className="flex-1" />
+        <Button variant="outline" onClick={handleLogout} className="mr-4">
+            Logout
+        </Button>
     </div>
 }
+

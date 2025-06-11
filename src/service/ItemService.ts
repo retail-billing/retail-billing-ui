@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const token = localStorage.getItem("token");
+
 export interface Item {
     itemId: string,
     name: string,
@@ -21,7 +23,7 @@ export const addItem = async (item: Omit<Item, "categoryName" | "itemId" | "imag
     const response = await axios.post('http://localhost:8080/v1/admin/items', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         }
     });
     return response.data;
@@ -31,7 +33,7 @@ export const deleteItem = async (itemId: string) => {
     return await axios.delete<void>(`http://localhost:8080/v1/admin/items/${itemId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         }
     });
 }
@@ -40,7 +42,7 @@ export const fetchItems = async () => {
     const response = await axios.get<Item[]>('http://localhost:8080/v1/items', {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response.data;
@@ -50,7 +52,7 @@ export const fetchItemById = async (itemId: string) => {
     const response = await axios.get<Item>(`http://localhost:8080/v1/items/${itemId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+            'Authorization': `Bearer ${token}`,
         },
     });
     return response.data;

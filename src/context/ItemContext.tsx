@@ -1,4 +1,4 @@
-import React, { createContext, useState, type ReactNode, useEffect } from 'react';
+import React, {createContext, useState, type ReactNode, useEffect, useContext} from 'react';
 import {type Item, fetchItems } from '@/service/ItemService';
 
 interface ItemContextType {
@@ -30,5 +30,11 @@ export const ItemProvider: React.FC<ItemProviderProps> = ({ children }) => {
     );
 };
 
-export default ItemContext;
+export const useItem = () => {
+    const context = useContext(ItemContext);
+    if (context === undefined) {
+        throw new Error('useCategory must be used within a CategoryProvider');
+    }
+    return context;
+};
 
